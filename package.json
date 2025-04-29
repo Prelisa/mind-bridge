@@ -1,0 +1,25 @@
+{
+  "name": "mind-bridge-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prelisa/mind-bridge-server.git"
+  },
+  "keywords": [
+    "mind-bridge"
+  ],
+  "author": "prelisa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Prelisa/mind-bridge-server/issues"
+  },
+  "homepage": "https://github.com/Prelisa/mind-bridge-server#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
