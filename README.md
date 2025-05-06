@@ -1,1 +1,1 @@
-# mind-bridge-server
+# mind-bridge
