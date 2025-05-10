@@ -40,7 +40,7 @@ function App() {
         <Routes>
           <Route path={"/searchResult"} element={<SearchResult />} />
           <Route
-            path={"/postPreview/:postId"}
+            path={"/post/preview/:postId"}
             element={<PostPreview userDetails={userDetails} />}
           />
           {isLoggedIn ? (
