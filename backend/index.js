@@ -10,6 +10,7 @@ import {
 } from "./src/controllers/posts/getPosts.js";
 import { updatePost } from "./src/controllers/posts/updatePost.js";
 import { deletePost } from "./src/controllers/posts/deletePost.js";
+import { searchPost } from "./src/controllers/search/searchPost.js";
 
 const MONGO_URI =
   "mongodb+srv://prelisadahalbiz:YNRs2fRa2QH2bW76@mind-bridge.ksdpzu3.mongodb.net/mind-bridge";
@@ -102,6 +103,20 @@ app.delete("/deletePost/:id", async (req, res) => {
   try {
     console.log("deletePost=>");
     const result = await deletePost(req);
+    res.status(200).send({
+      status: true,
+      result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ status: false, message: error.toString() });
+  }
+});
+
+app.get("/post/search", async (req, res) => {
+  try {
+    console.log("searchPost=>");
+    const result = await searchPost(req);
     res.status(200).send({
       status: true,
       result,
