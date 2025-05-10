@@ -1,26 +1,18 @@
 import React from "react";
 import "./header.css";
+import logo from "../../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 function Header() {
+  const nav = useNavigate();
   return (
     <div className="headerContainer">
       <div className="mindBridgeMainContainer header">
         <div className="brand">
           <div className="iconMindBridge">
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 30 30"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 0H30V30H0V15.01H7.5V22.5H22.5V7.5H0V0Z"
-                fill="black"
-              />
-            </svg>
+            <img src={logo} />
           </div>
           <div className="brandName">MindBridge</div>
-          <div className="search">
+          {/* <div className="search">
             <input placeholder="Search MindBridge" name="" id="searchInput" />
 
             <svg
@@ -35,22 +27,30 @@ function Header() {
                 fill="#959DA5"
               />
             </svg>
-          </div>
+          </div> */}
         </div>
 
-        <div className="desktop">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+        <div className="desktop cta">
+          <span
+            className="login"
+            style={{ cursor: "pointer" }}
+            onClick={(e) => {
+              nav("/login");
+            }}
           >
-            <path
-              d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
-              fill="black"
-            />
-          </svg>
+            Login{" "}
+          </span>{" "}
+          <span style={{ margin: "0px 10px" }}>|</span>{" "}
+          <span
+            style={{ cursor: "pointer" }}
+            className="register"
+            onClick={(e) => {
+              nav("/signUp");
+            }}
+          >
+            {" "}
+            Register
+          </span>
         </div>
       </div>
     </div>
