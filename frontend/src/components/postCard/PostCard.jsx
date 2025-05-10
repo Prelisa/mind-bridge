@@ -25,7 +25,7 @@ function PostCard({
         style={{ cursor: isPublic ? "pointer" : "default" }}
         onClick={() => {
           if (isPublic) {
-            nav(`/postPreview/${id}`);
+            nav(`/post/preview/${id}`);
           }
         }}
       >
