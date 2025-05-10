@@ -24,7 +24,7 @@ Before you begin, make sure you have the following installed:
 1. Open a terminal
 2. Run the following command:
 ```bash
-git clone https://github.com/yourusername/mind-bridge.git
+git clone https://github.com/Prelisa/mind-bridge.git
 cd mind-bridge
 ```
 
