@@ -9,6 +9,7 @@ import SearchResult from "./pages/search/SearchResult";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import PostPreview from "./pages/postPreview/PostPreview";
+import SearchHomePage from "./pages/searchHome/SearchHome";
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [userDetails, setuserDetails] = useState(null);
@@ -38,7 +39,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path={"/searchResult"} element={<SearchResult />} />
+          <Route
+            path={"/searchResult/:searchTerm"}
+            element={<SearchResult />}
+          />
           <Route
             path={"/post/preview/:postId"}
             element={<PostPreview userDetails={userDetails} />}
@@ -67,7 +71,7 @@ function App() {
             </>
           ) : (
             <>
-              <Route element={<Navigate to="/login" />} path={"/"} />
+              <Route element={<SearchHomePage />} path={"/"} />
               <Route
                 path={"/signUp"}
                 element={<SignUpPage setisLoggedIn={setisLoggedIn} />}

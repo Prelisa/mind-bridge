@@ -172,3 +172,20 @@ export async function deletePost(id, authorName, authorEmail, jwtToken) {
     throw new Error(error.response.data.message.toString());
   }
 }
+export async function searchPost(subString) {
+  try {
+    console.log("searchPost");
+    const response = await axios.get(
+      BASE_URL + `/post/search?key=${encodeURIComponent(subString)}`
+    );
+    console.log({ response });
+    if (response.status == 200) {
+      return response.data;
+    } else {
+      throw new Error("getUserPost not found");
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.response.data.message.toString());
+  }
+}
