@@ -4,7 +4,7 @@ import error_outline from "../../assets/error_outline.svg";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import { useNavigate } from "react-router-dom";
-// import ProfileSetup from "./profileSetup/ProfileSetup";
+import ProfileSetup from "./profileSetup/ProfileSetup";
 import { createUser } from "../../apis/api";
 function SignUpPage({ setisLoggedIn }) {
   const nav = useNavigate();
@@ -165,7 +165,15 @@ function SignUpPage({ setisLoggedIn }) {
           </div>
         </div>
       ) : (
-        <div></div>
+        <ProfileSetup
+          name={`${firstName} ${lastName}`}
+          isLoading={isLoading}
+          errorMessage={errorMessage}
+          createAccount={createAccount}
+          setsignUpStepCount={setsignUpStepCount}
+          description={description}
+          setDescription={setDescription}
+        />
       )}
       <Footer />
     </>
