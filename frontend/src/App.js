@@ -1,3 +1,4 @@
+import logo from "./logo.svg";
 import "./App.css";
 import SignUpPage from "./pages/signup/SignUpPage";
 import Login from "./pages/login/Login";
@@ -7,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SearchResult from "./pages/search/SearchResult";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import PostPreview from "./pages/postPreview/PostPreview";
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [userDetails, setuserDetails] = useState(null);
@@ -37,6 +39,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path={"/searchResult"} element={<SearchResult />} />
+          <Route
+            path={"/postPreview/:postId"}
+            element={<PostPreview userDetails={userDetails} />}
+          />
           {isLoggedIn ? (
             <>
               <Route element={<Navigate to="/dashboard" />} path={"/"} />
