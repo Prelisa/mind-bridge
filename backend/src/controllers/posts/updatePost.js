@@ -13,7 +13,7 @@ export async function updatePost(req) {
       authorName,
     } = req.body;
     const { authorization } = req.headers;
-    console.log(req.headers);
+    console.log(req.headers)
 
     const jwtTokendecoded = jwt.verify(
       authorization.split(" ")[1],
