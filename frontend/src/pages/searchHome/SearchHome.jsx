@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import searchGirl from "../../assets/search.png";
 import Header from "../../components/header/Header";
 import { searchPost } from "../../apis/api";
-function SearchHomePage({ setisLoggedIn }) {
+function SearchHomePage({ setisLoggedIn, userDetails }) {
   const nav = useNavigate();
   const [isLoading, setisLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -15,7 +15,7 @@ function SearchHomePage({ setisLoggedIn }) {
 
   return (
     <div className="sh-searchHome">
-      <Header />
+      <Header userDetails={userDetails} />
       <div className="sh-mainContainer">
         <div className="sh-title">MindBridge</div>
         <div className="sr-search-bar">

@@ -2,7 +2,7 @@ import React from "react";
 import "./header.css";
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
-function Header() {
+function Header({ userDetails }) {
   const nav = useNavigate();
   return (
     <div className="headerContainer">
@@ -31,26 +31,40 @@ function Header() {
         </div>
 
         <div className="desktop cta">
-          <span
-            className="login"
-            style={{ cursor: "pointer" }}
-            onClick={(e) => {
-              nav("/login");
-            }}
-          >
-            Login{" "}
-          </span>{" "}
-          <span style={{ margin: "0px 10px" }}>|</span>{" "}
-          <span
-            style={{ cursor: "pointer" }}
-            className="register"
-            onClick={(e) => {
-              nav("/signUp");
-            }}
-          >
-            {" "}
-            Register
-          </span>
+          {userDetails == null ? (
+            <>
+              <span
+                className="login"
+                style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  nav("/login");
+                }}
+              >
+                Login{" "}
+              </span>{" "}
+              <span style={{ margin: "0px 10px" }}>|</span>{" "}
+              <span
+                style={{ cursor: "pointer" }}
+                className="register"
+                onClick={(e) => {
+                  nav("/signUp");
+                }}
+              >
+                {" "}
+                Register
+              </span>
+            </>
+          ) : (
+            <span
+              style={{ cursor: "pointer" }}
+              className="login"
+              onClick={(e) => {
+                nav("/dashboard");
+              }}
+            >
+              {userDetails.name}
+            </span>
+          )}
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../apis/api";
 import Spinner from "react-bootstrap/Spinner";
 
-function Login({ setisLoggedIn }) {
+function Login({ setisLoggedIn, handleLogin }) {
   const nav = useNavigate();
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
@@ -76,17 +76,9 @@ function Login({ setisLoggedIn }) {
                     ) {
                     } else
                       try {
-                        e.preventDefault(); // Prevent form submission
-                        console.log({ email, password });
-                        const res = await loginUser(email, password);
-                        setisLoggedIn(true);
-                        localStorage.removeItem("user");
-                        localStorage.setItem(
-                          "user",
-                          JSON.stringify(res.result.jwtToken)
-                        );
-                        nav("/dashboard");
-                        console.log(res);
+                        if (handleLogin(e, email, password)) {
+                          nav("/dashboard");
+                        }
                       } catch (error) {
                         seterrorName(error.toString());
                       } finally {

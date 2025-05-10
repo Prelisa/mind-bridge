@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import PostPreview from "./pages/postPreview/PostPreview";
 import SearchHomePage from "./pages/searchHome/SearchHome";
+import { loginUser } from "./apis/api";
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [userDetails, setuserDetails] = useState(null);
@@ -28,6 +29,22 @@ function App() {
         setuserDetails(obj);
         setisLoggedIn(true);
       }
+    }
+  };
+  const handleLogin = async (e, email, password) => {
+    try {
+      e.preventDefault();
+      console.log({ email, password });
+      const res = await loginUser(email, password);
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify(res.result.jwtToken));
+      let obj = jwtDecode(res.result.jwtToken);
+      obj["jwt"] = res.result.jwtToken;
+      setuserDetails(obj);
+      setisLoggedIn(true);
+      return true;
+    } catch (error) {
+      throw new Error(error);
     }
   };
   useEffect(() => {
@@ -49,7 +66,10 @@ function App() {
           />
           {isLoggedIn ? (
             <>
-              <Route element={<Navigate to="/dashboard" />} path={"/"} />
+              <Route
+                element={<SearchHomePage userDetails={userDetails} />}
+                path={"/"}
+              />
               <Route
                 path={"/post/edit"}
                 element={<PostEditor userDetails={userDetails} />}
@@ -71,14 +91,22 @@ function App() {
             </>
           ) : (
             <>
-              <Route element={<SearchHomePage />} path={"/"} />
+              <Route
+                element={<SearchHomePage userDetails={userDetails} />}
+                path={"/"}
+              />
               <Route
                 path={"/signUp"}
                 element={<SignUpPage setisLoggedIn={setisLoggedIn} />}
               />
               <Route
                 path={"/login"}
-                element={<Login setisLoggedIn={setisLoggedIn} />}
+                element={
+                  <Login
+                    handleLogin={handleLogin}
+                    setisLoggedIn={setisLoggedIn}
+                  />
+                }
               />
               <Route path={"/dashboard"} element={<Navigate to="/login" />} />
               <Route path={"/post/edit"} element={<Navigate to="/login" />} />

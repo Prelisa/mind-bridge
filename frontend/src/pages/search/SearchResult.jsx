@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./searchResult.css";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { searchPost } from "../../apis/api";
 import SkeletonLoader from "../../components/loader/SkeletonLoader";
 import PostCard from "../../components/postCard/PostCard";
+import logo from "../../assets/logo.png";
 function SearchResult() {
   const [isShowMenu, setisShowMenu] = useState(false);
   const { searchTerm } = useParams();
+  const nav = useNavigate();
   const [isPostLoading, setIsPostLoading] = useState(true);
   const [postLists, setPostLists] = useState([]);
   const [searchText, setSearchText] = useState(searchTerm);
@@ -23,25 +25,14 @@ function SearchResult() {
   useEffect(() => {
     handleSearchpost();
     return () => {};
-  }, []);
+  }, [window.location.pathname]);
 
   return (
     <div className="search-result-container">
       <div className="navContainer">
         <div className="sr-navbar">
-          <a className="logo" href="https://primate.health">
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 30 30"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 0H30V30H0V15.01H7.5V22.5H22.5V7.5H0V0Z"
-                fill="black"
-              />
-            </svg>
+          <a className="logo">
+            <img src={logo} />
           </a>
 
           <div className="sr-search-bar">
@@ -51,6 +42,11 @@ function SearchResult() {
                 name=""
                 id="searchBox"
                 value={searchText}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    nav(`/searchResult/${encodeURIComponent(searchText)}`);
+                  }
+                }}
                 onChange={(e) => {
                   setSearchText(e.target.value);
                 }}
@@ -189,7 +185,14 @@ function SearchResult() {
               <input type="text" name="" id="searchBar-mobile" />
             </span>
 
-            <span className="sr-mobile-searchBtn">
+            <span
+              className="sr-mobile-searchBtn"
+              onClick={(e) => {
+                if (searchText.length >= 1) {
+                  nav(`/searchResult/${encodeURIComponent(searchText)}`);
+                }
+              }}
+            >
               <svg
                 width="24"
                 height="24"
@@ -204,7 +207,6 @@ function SearchResult() {
                 />
               </svg>
             </span>
-            {/* <!-- <input type="text" id="searchBar-mobile" /> --> */}
           </div>
         </div>
       </div>

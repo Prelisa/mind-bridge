@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./postPreview.css";
 import { FaHome } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getPostInformation, getUserPost } from "../../apis/api";
 import { formatcreatedTime } from "../../utils/formatCreatedTime";
 import PostCard from "../../components/postCard/PostCard";
 function PostPreview({ userDetails }) {
+  const nav = useNavigate();
   const { postId } = useParams();
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
@@ -73,7 +74,18 @@ function PostPreview({ userDetails }) {
             <FaHome />
           </div>
           <h2 className="pp-authorName clickable">MindBridge</h2>
-          <div className="brand">Login</div>
+          <div
+            className="brand"
+            onClick={() => {
+              if (userDetails == null) {
+                nav("/login");
+              } else {
+                nav("/");
+              }
+            }}
+          >
+            {userDetails == null ? "Login" : "Go to Search"}
+          </div>
         </div>
       </div>
 
