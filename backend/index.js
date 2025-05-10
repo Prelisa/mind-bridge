@@ -1,24 +1,29 @@
 import express from "express";
-import { connectMongoDB } from "./services/database/mongodb.js";
-import { createAccount } from "./services/authentication/createAccount.js";
-import { login } from "./services/authentication/login.js";
 import cors from "cors";
-import { createPost } from "./services/posts/createPost.js";
-import { getAllPostForUser } from "./services/posts/getPosts.js";
+import { connectMongoDB } from "./src/database/mongodb.js";
+import { createAccount } from "./src/controllers/authentication/createAccount.js";
+import { login } from "./src/controllers/authentication/login.js";
+import { createPost } from "./src/controllers/posts/createPost.js";
+import {
+  getAllPostForUser,
+  getSinglePostInformation,
+} from "./src/controllers/posts/getPosts.js";
+import { updatePost } from "./src/controllers/posts/updatePost.js";
+import { deletePost } from "./src/controllers/posts/deletePost.js";
 
-const MONGO_URI = "mongodb+srv://prelisadahalbiz:YNRs2fRa2QH2bW76@mind-bridge.ksdpzu3.mongodb.net/";
+const MONGO_URI =
+  "mongodb+srv://prelisadahalbiz:YNRs2fRa2QH2bW76@mind-bridge.ksdpzu3.mongodb.net/mind-bridge";
 var app = express();
 app.use(cors({ origin: "*" }));
-app.use(express.json()); //parse json bodies
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.send("all good!");
 });
 app.post("/createAccount", async (req, res) => {
   try {
-    let mongoDBServer = await connectMongoDB(MONGO_URI);
-    const createAccountResponse = await createAccount(mongoDBServer, req);
-
+    const createAccountResponse = await createAccount(req);
     res.status(200).send({
       status: true,
       result: createAccountResponse,
@@ -30,8 +35,7 @@ app.post("/createAccount", async (req, res) => {
 });
 app.post("/login", async (req, res) => {
   try {
-    let mongoDBServer = await connectMongoDB(MONGO_URI);
-    const user = await login(mongoDBServer, req);
+    const user = await login(req);
     res.status(200).send({
       status: true,
       result: user,
@@ -43,8 +47,7 @@ app.post("/login", async (req, res) => {
 });
 app.post("/createPost", async (req, res) => {
   try {
-    let mongoDBServer = await connectMongoDB(MONGO_URI);
-    const result = await createPost(mongoDBServer, req);
+    const result = await createPost(req);
     res.status(200).send({
       status: true,
       result,
@@ -56,8 +59,21 @@ app.post("/createPost", async (req, res) => {
 });
 app.get("/getAllPosts/:authorEmail", async (req, res) => {
   try {
-    let mongoDBServer = await connectMongoDB(MONGO_URI);
-    const result = await getAllPostForUser(mongoDBServer, req);
+    console.log("getAllPosts=>");
+    const result = await getAllPostForUser(req);
+    res.status(200).send({
+      status: true,
+      result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ status: false, message: error.toString() });
+  }
+});
+app.get("/getPost/:postId", async (req, res) => {
+  try {
+    console.log("getSinglePostInformation=>");
+    const result = await getSinglePostInformation(req);
     res.status(200).send({
       status: true,
       result,
@@ -68,6 +84,34 @@ app.get("/getAllPosts/:authorEmail", async (req, res) => {
   }
 });
 
-app.listen(8080, () => {
+app.put("/updatePost", async (req, res) => {
+  try {
+    console.log("getSinglePostInformation=>");
+    const result = await updatePost(req);
+    res.status(200).send({
+      status: true,
+      result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ status: false, message: error.toString() });
+  }
+});
+
+app.delete("/deletePost/:id", async (req, res) => {
+  try {
+    console.log("deletePost=>");
+    const result = await deletePost(req);
+    res.status(200).send({
+      status: true,
+      result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ status: false, message: error.toString() });
+  }
+});
+app.listen(8080, async () => {
   console.log("Server starting at 8080");
+  await connectMongoDB(MONGO_URI);
 });
