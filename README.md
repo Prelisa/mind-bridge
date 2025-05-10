@@ -22,7 +22,7 @@ MindBridge is a content publishing platform that allows users to create and shar
 
 ## Project Structure
 
-
+```bash
 /
 ├── frontend/                # React frontend application
 │   ├── public/              # Public assets
@@ -44,7 +44,7 @@ MindBridge is a content publishing platform that allows users to create and shar
 │
 └── README.md                # Project documentation
 
-
+```
 ## Features
 
 - User authentication (signup/login)
