@@ -10,7 +10,6 @@ export async function createAccount(req) {
       password,
       description,
       joinedData: new Date().getTime(),
-      _id: email,
     };
     console.log("Adding a new user", newUserObject);
 
