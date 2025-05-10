@@ -23,11 +23,6 @@ function PostCard({
       <div
         className="card"
         style={{ cursor: isPublic ? "pointer" : "default" }}
-        onClick={() => {
-          if (isPublic) {
-            nav(`/post/preview/${id}`);
-          }
-        }}
       >
         <div className="img">
           <img src={imgUrl} />
@@ -36,7 +31,13 @@ function PostCard({
         </div>
         <div className="body">
           <div className="titleHandler">
-            <h3>{title}</h3>
+            <h3
+              onClick={() => {
+                nav(`/post/preview/${id}`);
+              }}
+            >
+              {title}
+            </h3>
           </div>
           <p className="Pbody">{description}</p>
           <div className="bottom">
