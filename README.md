@@ -128,10 +128,10 @@ Password: password123
 
 ## Project Screenshots
 
-![Login Screen](https://example.com/screenshots/login.png)
-![Signup Screen](https://example.com/screenshots/signup.png)
-![Dashboard](https://example.com/screenshots/dashboard.png)
-![Post Editor](https://example.com/screenshots/editor.png)
+![Login Screen](./docs/screenshots/Login.png)
+![Signup Screen](./docs/screenshots/SignUp.png)
+![Dashboard](./docs/screenshots/UserDashboard.png)
+![Search](./docs/screenshots/Search.png)
 
 ## Database Collections
 
