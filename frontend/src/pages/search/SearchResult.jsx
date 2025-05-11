@@ -18,7 +18,7 @@ function SearchResult({ userDetails }) {
     try {
       setIsPostLoading(true);
       console.log({ searchTerm, searchText });
-      setSearchText(encodeURIComponent(searchTerm));
+      setSearchText(decodeURIComponent(searchTerm));
       const resp = await searchPost(searchTerm);
       console.log({ resp });
       setPostLists(resp.result);
@@ -30,7 +30,7 @@ function SearchResult({ userDetails }) {
     return () => {
       setIsPostLoading(true);
       setPostLists([]);
-      setSearchText(encodeURIComponent(searchTerm));
+      setSearchText(decodeURIComponent(searchTerm));
     };
   }, [window.location.pathname]);
 

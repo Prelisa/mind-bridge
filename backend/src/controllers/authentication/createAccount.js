@@ -17,7 +17,7 @@ export async function createAccount(req) {
     const jwtToken = jwt.sign(
       {
         iat: new Date().getTime(),
-        exp: new Date().getTime() + 60 * 60,
+        exp: new Date().getTime() + 60 * 60 * 1000,
         name,
         email,
       },

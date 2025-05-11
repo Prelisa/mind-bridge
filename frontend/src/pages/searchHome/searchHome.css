@@ -26,3 +26,11 @@
 .sr-ctaButton {
   margin-top: 22px;
 }
+.create-content{
+  margin-top: 20px;
+  color: slategray;
+  cursor: pointer;
+}
+.create-content:hover{
+  text-decoration: underline;
+}

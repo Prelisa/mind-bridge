@@ -86,7 +86,9 @@ function SearchHomePage({ setisLoggedIn, userDetails }) {
               />
             </svg>
           </span>
+          
         </div>
+        <p className="create-content" onClick={()=>{nav('/login')}} >Want to create content?</p>
       </div>
       <img className="sh-girl" src={searchGirl} />
     </div>
