@@ -5,7 +5,7 @@ import { searchPost } from "../../apis/api";
 import SkeletonLoader from "../../components/loader/SkeletonLoader";
 import PostCard from "../../components/postCard/PostCard";
 import logo from "../../assets/logo.png";
-function SearchResult() {
+function SearchResult({ userDetails }) {
   const [isShowMenu, setisShowMenu] = useState(false);
   const { searchTerm } = useParams();
   const nav = useNavigate();
@@ -96,53 +96,25 @@ function SearchResult() {
             </span>
           </div>
           <div className="box">
-            <div className="feedback clickable">Feedback?</div>
-
             <div className="menuIcon">
-              <div className="clickable MenuSVG">
-                {isShowMenu == false ? (
-                  <svg
-                    onClick={() => {
-                      setisShowMenu(true);
-                    }}
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z"
-                      fill="black"
-                    />
-                  </svg>
+              <div
+                className="headerUserIcon login"
+                onClick={(e) => {
+                  nav("/dashboard");
+                }}
+              >
+                <div className="img">
+                  <img src="https://avatar.iran.liara.run/public/68" />
+                </div>
+                {userDetails == null ? (
+                  <div>Login</div>
                 ) : (
-                  <svg
-                    onClick={() => {
-                      setisShowMenu(false);
-                    }}
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
-                      fill="black"
-                    />
-                  </svg>
+                  <div>
+                    <h4>{userDetails?.name}</h4>
+                    <p style={{ fontSize: "12px" }}>{userDetails?.email}</p>
+                  </div>
                 )}
               </div>
-
-              {isShowMenu ? (
-                <div className="dropdownOption">
-                  <div className="menuOption">
-                    <div className="menuItem home clickable">Sign in</div>
-                    <div className="menuItem help clickable">Help</div>
-                  </div>
-                </div>
-              ) : null}
             </div>
           </div>
         </div>

@@ -70,21 +70,50 @@ function PostPreview({ userDetails }) {
     <div className="pp-super" id="pp-super">
       <div className="headerContainer">
         <div className="header">
-          <div className="desktop clickable">
+          <div
+            className="desktop clickable"
+            onClick={() => {
+              nav("/");
+            }}
+          >
             <FaHome />
           </div>
-          <h2 className="pp-authorName clickable">MindBridge</h2>
+          <h2
+            className="pp-authorName clickable"
+            onClick={() => {
+              nav("/");
+            }}
+          >
+            MindBridge
+          </h2>
           <div
             className="brand"
             onClick={() => {
               if (userDetails == null) {
                 nav("/login");
               } else {
-                nav("/");
+                nav("/dashboard");
               }
             }}
           >
-            {userDetails == null ? "Login" : "Go to Search"}
+            {userDetails == null ? (
+              "Login"
+            ) : (
+              <div
+                className="headerUserIcon login"
+                onClick={(e) => {
+                  nav("/dashboard");
+                }}
+              >
+                <div className="img">
+                  <img src="https://avatar.iran.liara.run/public/68" />
+                </div>
+                <div>
+                  <h4>{userDetails?.name}</h4>
+                  <p style={{ fontSize: "12px" }}>{userDetails?.email}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

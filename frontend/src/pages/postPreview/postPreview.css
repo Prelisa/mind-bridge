@@ -171,3 +171,9 @@ hr {
 
   height: 300px;
 }
+.headerUserIcon {
+  cursor: pointer;
+}
+.headerUserIcon:hover {
+  text-decoration: underline;
+}

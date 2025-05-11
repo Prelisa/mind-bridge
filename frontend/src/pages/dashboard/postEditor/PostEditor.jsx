@@ -134,6 +134,8 @@ function PostEditor({ userDetails }) {
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
+                console.log(e.target);
+                e.target.style.height = e.target.scrollHeight + "px";
               }}
               placeholder="Enter Title"
             ></textarea>
@@ -143,6 +145,7 @@ function PostEditor({ userDetails }) {
               value={subTitle}
               onChange={(e) => {
                 setSubTitle(e.target.value);
+                e.target.style.height = e.target.scrollHeight + "px";
               }}
               placeholder="Enter subtitle"
             ></textarea>

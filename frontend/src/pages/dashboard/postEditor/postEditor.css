@@ -53,13 +53,14 @@
   margin-bottom: 80px;
 }
 .inputTitle {
-  height: var(--h1LineHeight);
+  /* height: var(--h1LineHeight); */
   font-style: normal;
   font-weight: var(--h1FontWeight);
   font-size: var(--h1FontSize);
   line-height: var(--h1LineHeight);
   color: var(--black);
   min-height: var(--h1LineHeight);
+  height: fit-content;
   min-width: 720px;
   outline: none;
   border: none;

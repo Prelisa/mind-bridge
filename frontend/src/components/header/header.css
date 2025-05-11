@@ -215,3 +215,16 @@ hr {
 .headerContainer .cta .register:hover {
   text-decoration: underline;
 }
+
+.headerUserIcon {
+  display: flex;
+  align-items: center;
+}
+
+.headerUserIcon img {
+  margin-right: 10px;
+  width: 36px;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 36px;
+}

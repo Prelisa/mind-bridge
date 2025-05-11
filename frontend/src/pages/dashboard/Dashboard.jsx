@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./dashboard.css";
 import Post from "./post/Post";
+import { GrLogout } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-function Dashboard({ setisLoggedIn, userDetails }) {
+import { FaSearch } from "react-icons/fa";
+function Dashboard({ setisLoggedIn, userDetails, handleLogout }) {
   const [showMenu, setshowMenu] = useState(false);
   const nav = useNavigate();
   return (
@@ -12,7 +14,10 @@ function Dashboard({ setisLoggedIn, userDetails }) {
           <div className="img">
             <img src="https://avatar.iran.liara.run/public/68" />
           </div>
-          <h4>{userDetails?.name}</h4>
+          <div>
+            <h4>{userDetails?.name}</h4>
+            <p style={{ fontSize: "12px" }}>{userDetails?.email}</p>
+          </div>
         </div>
         <div className="menuBtn active">
           <div className="iconContainer">
@@ -27,32 +32,34 @@ function Dashboard({ setisLoggedIn, userDetails }) {
               <path d="M14 17H7V15H14V17ZM17 13H7V11H17V13ZM17 9H7V7H17V9Z" />
             </svg>
 
-            <h4 className="menuText">Post</h4>
+            <h4 className="menuText">Post Dashboard</h4>
           </div>
         </div>
 
-        <div className="menuBtn setting">
+        <div
+          className="menuBtn setting"
+          onClick={(e) => {
+            nav("/");
+          }}
+        >
           <div className="iconContainer">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M4 18V17.35C4 17.01 4.16 16.69 4.41 16.54C6.1 15.53 8.03 15 10 15C10.03 15 10.05 15 10.08 15.01C10.18 14.31 10.38 13.64 10.67 13.03C10.45 13.01 10.23 13 10 13C7.58 13 5.32 13.67 3.39 14.82C2.51 15.34 2 16.32 2 17.35V20H11.26C10.84 19.4 10.51 18.72 10.29 18H4Z" />
-              <path d="M10 12C12.21 12 14 10.21 14 8C14 5.79 12.21 4 10 4C7.79 4 6 5.79 6 8C6 10.21 7.79 12 10 12ZM10 6C11.1 6 12 6.9 12 8C12 9.1 11.1 10 10 10C8.9 10 8 9.1 8 8C8 6.9 8.9 6 10 6Z" />
-              <path d="M20.7499 16C20.7499 15.78 20.7199 15.58 20.6899 15.37L21.8299 14.36L20.8299 12.63L19.3799 13.12C19.0599 12.85 18.6999 12.64 18.2999 12.49L17.9999 11H15.9999L15.6999 12.49C15.2999 12.64 14.9399 12.85 14.6199 13.12L13.1699 12.63L12.1699 14.36L13.3099 15.37C13.2799 15.58 13.2499 15.78 13.2499 16C13.2499 16.22 13.2799 16.42 13.3099 16.63L12.1699 17.64L13.1699 19.37L14.6199 18.88C14.9399 19.15 15.2999 19.36 15.6999 19.51L15.9999 21H17.9999L18.2999 19.51C18.6999 19.36 19.0599 19.15 19.3799 18.88L20.8299 19.37L21.8299 17.64L20.6899 16.63C20.7199 16.42 20.7499 16.22 20.7499 16ZM16.9999 18C15.8999 18 14.9999 17.1 14.9999 16C14.9999 14.9 15.8999 14 16.9999 14C18.0999 14 18.9999 14.9 18.9999 16C18.9999 17.1 18.0999 18 16.9999 18Z" />
-            </svg>
+            <FaSearch />
 
-            <h4 className="menuText">Settings</h4>
+            <h4 className="menuText">Go to Search</h4>
           </div>
+        </div>
+        <div
+          className="menuBtn logout"
+          onClick={(e) => {
+            handleLogout();
+            nav("/login");
+          }}
+        >
+          <div className="iconContainer">
+            <GrLogout />
 
-          {/* <!-- <div className="arrow">
-        <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 9.06493L0.885 9.94993L5.835 4.99993L0.885 0.0499268L0 0.934927L4.065 4.99993L0 9.06493Z" />
-        </svg>
-      </div> --> */}
+            <h4 className="menuText">Logout</h4>
+          </div>
         </div>
       </div>
       <div className="toggleContainer">

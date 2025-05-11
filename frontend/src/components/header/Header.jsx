@@ -3,11 +3,17 @@ import "./header.css";
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 function Header({ userDetails }) {
+  console.log(userDetails);
   const nav = useNavigate();
   return (
     <div className="headerContainer">
       <div className="mindBridgeMainContainer header">
-        <div className="brand">
+        <div
+          className="brand"
+          onClick={(e) => {
+            nav("/");
+          }}
+        >
           <div className="iconMindBridge">
             <img src={logo} />
           </div>
@@ -62,7 +68,15 @@ function Header({ userDetails }) {
                 nav("/dashboard");
               }}
             >
-              {userDetails.name}
+              <div className="headerUserIcon">
+                <div className="img">
+                  <img src="https://avatar.iran.liara.run/public/68" />
+                </div>
+                <div>
+                  <h4>{userDetails?.name}</h4>
+                  <p style={{ fontSize: "12px" }}>{userDetails?.email}</p>
+                </div>
+              </div>
             </span>
           )}
         </div>

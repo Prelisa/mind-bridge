@@ -4,7 +4,13 @@ import SignUpPage from "./pages/signup/SignUpPage";
 import Login from "./pages/login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import PostEditor from "./pages/dashboard/postEditor/PostEditor";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import SearchResult from "./pages/search/SearchResult";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
@@ -17,6 +23,8 @@ function App() {
   const processAuth = async () => {
     const user = localStorage.getItem("user");
     console.log(user);
+    setuserDetails(null);
+    setisLoggedIn(false);
     if (user) {
       const json = JSON.parse(user);
       let obj = jwtDecode(json);
@@ -25,6 +33,7 @@ function App() {
       if (obj.exp <= new Date().getTime()) {
         localStorage.removeItem("user");
         setisLoggedIn(false);
+        setuserDetails(null);
       } else {
         setuserDetails(obj);
         setisLoggedIn(true);
@@ -47,10 +56,16 @@ function App() {
       throw new Error(error);
     }
   };
+  const handleLogout = async () => {
+    localStorage.removeItem("user");
+    setisLoggedIn(false);
+    setuserDetails(null);
+    processAuth();
+  };
   useEffect(() => {
     processAuth();
     return () => {};
-  }, []);
+  }, [window.location.pathname]);
 
   return (
     <div className="App">
@@ -58,7 +73,7 @@ function App() {
         <Routes>
           <Route
             path={"/searchResult/:searchTerm"}
-            element={<SearchResult />}
+            element={<SearchResult userDetails={userDetails} />}
           />
           <Route
             path={"/post/preview/:postId"}
@@ -82,6 +97,7 @@ function App() {
                 path={"/dashboard"}
                 element={
                   <Dashboard
+                    handleLogout={handleLogout}
                     userDetails={userDetails}
                     setisLoggedIn={setisLoggedIn}
                   />
