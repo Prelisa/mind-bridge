@@ -47,11 +47,6 @@ function ProfileSetup({
                 <p>{errorMessage}</p>
               </div>
             )}
-            {/* <div *ngIf="error.state.isDescription" className="invalidEmailErrorSection">
-            <img className="invalidEmailErrorSVG" src="../../../../assets/error_outline.svg" />
-  
-            <p>Description should not be less then 10 words.</p>
-          </div> */}
 
             <div style={{ display: "flex", alignItems: "center" }}>
               <button

@@ -5,6 +5,7 @@ import { searchPost } from "../../apis/api";
 import SkeletonLoader from "../../components/loader/SkeletonLoader";
 import PostCard from "../../components/postCard/PostCard";
 import logo from "../../assets/logo.png";
+import NoResultFound from "../../components/noResult/NoResult";
 function SearchResult({ userDetails }) {
   const [isShowMenu, setisShowMenu] = useState(false);
   const { searchTerm } = useParams();
@@ -16,6 +17,8 @@ function SearchResult({ userDetails }) {
   const handleSearchpost = async () => {
     try {
       setIsPostLoading(true);
+      console.log({ searchTerm, searchText });
+      setSearchText(encodeURIComponent(searchTerm));
       const resp = await searchPost(searchTerm);
       console.log({ resp });
       setPostLists(resp.result);
@@ -24,14 +27,23 @@ function SearchResult({ userDetails }) {
   };
   useEffect(() => {
     handleSearchpost();
-    return () => {};
+    return () => {
+      setIsPostLoading(true);
+      setPostLists([]);
+      setSearchText(encodeURIComponent(searchTerm));
+    };
   }, [window.location.pathname]);
 
   return (
     <div className="search-result-container">
       <div className="navContainer">
         <div className="sr-navbar">
-          <a className="logo">
+          <a
+            className="logo"
+            onClick={() => {
+              nav("/");
+            }}
+          >
             <img src={logo} />
           </a>
 
@@ -79,7 +91,14 @@ function SearchResult({ userDetails }) {
               </svg>
             </span>
             <div className="vLine"></div>
-            <span className="searchBtn">
+            <span
+              className="searchBtn"
+              onClick={(e) => {
+                if (searchText.length >= 1) {
+                  nav(`/searchResult/${encodeURIComponent(searchText)}`);
+                }
+              }}
+            >
               <svg
                 width="24"
                 height="24"
@@ -225,10 +244,7 @@ function SearchResult({ userDetails }) {
           <span className="text">Including results for </span> <span></span>
           <span className="suggestion"> {decodeURIComponent(searchTerm)} </span>
         </div>
-        {/* <div className="suggestionResult searchOnly">
-          <span className="text">Including results for </span> <span></span>
-          <span className="suggestion"> search text </span>
-        </div> */}
+
         <div>
           <div className="sr-results">
             {isPostLoading ? (
@@ -240,6 +256,9 @@ function SearchResult({ userDetails }) {
               </div>
             ) : (
               <div>
+                {postLists.length <= 0 && !isPostLoading ? (
+                  <NoResultFound keySearch={decodeURIComponent(searchTerm)} />
+                ) : null}
                 {postLists.map((data) => {
                   return (
                     <PostCard
