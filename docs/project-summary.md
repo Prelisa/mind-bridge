@@ -1,126 +1,163 @@
-# MindBridge - Project Summary
+# MindBridge: Bridging Minds, Healing Hearts
 
-## 1. Objective and Functionality
+## Project Overview
 
-MindBridge is a content publishing platform designed to empower users to create, publish, and share their articles, blog posts, and ideas. The platform aims to provide an intuitive and streamlined user experience for content creators while maintaining a clean and responsive interface for readers.
+MindBridge is a web-based platform dedicated to mental health and well-being resources. This system bridges the gap between mental health content creators and individuals seeking support or information. The platform serves a dual purpose:
 
-### Key Functionality:
+- **For Content Creators**: It provides a dedicated space for mental health professionals, experienced individuals, and wellness advocates to share their expertise through articles.
+- **For Readers**: The search functionality allows users to easily discover relevant content tailored to their specific mental health interests or concerns.
 
-- **User Authentication**: Secure signup and login system with JWT-based authentication
-- **Content Creation**: Rich text editor with formatting options for creating engaging content
-- **Post Management**: Dashboard interface for creating, editing, and deleting posts
-- **User Profiles**: Basic profile information with description
-- **Responsive Design**: Mobile-friendly interface that adapts to different screen sizes
+By connecting quality mental health content with those who need it most, MindBridge aims to foster a supportive community while making reliable wellness information more accessible to everyone.
 
-The platform focuses on simplicity and ease of use, allowing writers to focus on their content rather than dealing with complex publishing tools. The rich text editor powered by Quill provides essential formatting capabilities while maintaining a clean user interface.
+## Core Functionality
 
-## 2. Architecture Diagram
+### User Authentication
+- Account creation with personal details and profile description
+- Secure login with JWT-based authentication
+- Password management and session handling
 
-```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│                 │     │                 │     │                 │
-│  React Frontend │────▶│  Express Server │────▶│  MongoDB Atlas  │
-│                 │     │                 │     │                 │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-        │                       │                       │
-        │                       │                       │
-        ▼                       ▼                       ▼
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│                 │     │                 │     │                 │
-│  User Interface │     │  REST API       │     │  Database       │
-│  - Login/Signup │     │  - Auth Routes  │     │  - Users        │
-│  - Dashboard    │     │  - Post Routes  │     │  - Posts        │
-│  - Post Editor  │     │  - JWT Auth     │     │  - Schemas      │
-│  - Post Viewing │     │  - Controllers  │     │                 │
-│                 │     │                 │     │                 │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-```
+### Content Management
+- Creating and publishing posts with title, subtitle, body, and thumbnail
+- Keyword tagging for improved content discoverability
+- Post editing and deleting capabilities for authors
 
-### Component Architecture:
+### Content Discovery
+- Search functionality to discover relevant content
+- View posts from searched results
 
-1. **Frontend (React)**
-   - Pages (Login, Signup, Dashboard, Post Editor)
-   - Components (Header, Footer, PostCard)
-   - API integration services
-   - State management
+## Target Audience
 
-2. **Backend (Node.js/Express)**
-   - Authentication controllers
-   - Post management controllers
-   - MongoDB connection
-   - JWT middleware for route protection
+MindBridge serves a diverse community united by their interest in mental health and personal well-being:
 
-3. **Database (MongoDB)**
-   - User collection
-   - Posts collection
+### For Content Writers:
+- Individuals navigating their own mental health journeys who wish to document and share their experiences
+- Writers specializing in psychological well-being, emotional intelligence topics and evidence-based insights and expertise
 
-## 3. Tools and Frameworks Used
+### For Content Seekers:
+- People searching for reliable information about specific mental health conditions or challenges
+- Individuals seeking validation and community through others' shared experiences
 
-### Frontend
-- **React.js**: Main frontend library for building the user interface
-- **React Router DOM**: For client-side routing
-- **React Bootstrap**: For UI components and responsive design
-- **Quill.js**: Rich text editor for post creation
-- **Axios**: For handling HTTP requests to the backend
-- **JWT-Decode**: For decoding JWT tokens on client-side
+## Architecture
 
-### Backend
-- **Node.js**: JavaScript runtime for server-side code
-- **Express.js**: Web framework for handling routes and requests
-- **Mongoose**: ODM for MongoDB interaction
-- **JWT (jsonwebtoken)**: For authentication and session management
-- **CORS**: For handling cross-origin requests
+### System Architecture
 
-### Database
-- **MongoDB Atlas**: Cloud database service for storing user and post data
+The application follows a three-tier architecture:
+- Client (Web Browser)
+- Frontend (React.js)
+- Backend (Node.js/Express)
+- Database (MongoDB)
+
+### Component Architecture
+
+#### Frontend (React.js)
+- **Pages**: Login, Signup, Dashboard, PostEditor, SearchResult, SearchHome, PostPreview
+- **Components**: Header, Footer, PostCard, SkeletonLoader
+- **API integration services**: Centralized in api.js using axios for HTTP requests
+- **State management**: React hooks (useState) for component-level state, localStorage for persistence
+- **Routing**: React Router with protected route implementation for authenticated access
+
+#### Backend (Node.js/Express)
+- **Authentication controllers**: createAccount.js, login.js with JWT token generation
+- **Post management controllers**: createPost.js, deletePost.js, getPosts.js, updatePost.js
+- **Search controller**: searchPost.js for content discovery
+- **MongoDB connection**: Mongoose ODM for database interactions
+- **JWT middleware**: Token verification for protected routes
+
+#### Database (MongoDB)
+- **User collection**: Schema with name, email, password, description fields
+- **Posts collection**: Schema with title, body, subTitle, thumbnailUrl, keywords, authorInfo
+- **Relationships**: Posts linked to users via authorEmail and authorName fields
+
+### Data Flow
+
+1. **User Registration/Login Flow**:
+   - User submits credentials via frontend forms (Login.jsx/SignUpPage.jsx)
+   - Data is sent to authentication endpoints (/login, /createAccount)
+   - Server validates data and queries/updates MongoDB user collection
+   - JWT tokens are generated with user info and 1-hour expiration
+   - Frontend stores tokens in localStorage for session management
+   - User state is updated (isLoggedIn=true) and redirected to Dashboard
+
+2. **Content Creation Flow**:
+   - Authenticated user creates post content using Quill rich text editor
+   - Post metadata (title, subTitle, thumbnailUrl, keywords) captured in forms
+   - JWT token included in request headers validates user identity
+   - Backend verifies token and compares author info with token payload
+   - Post data is stored in MongoDB with author information and timestamp
+   - Success response triggers navigation to Dashboard with updated post list
+
+3. **Content Discovery Flow**:
+   - User searches using SearchHome or browses Dashboard posts
+   - Queries are sent to /post/search or /getAllPosts endpoints
+   - Server performs regex search across multiple fields (title, body, keywords)
+   - MongoDB results are sorted by creation time (newest first)
+   - Results are displayed as PostCard components with previews
+   - User can click to view complete post content in PostPreview component
+
+## Tools and Frameworks
+
+### Frontend Technologies
+- React.js: Component-based UI library for building the interface
+- React Router: For client-side routing between different views
+- Axios: HTTP client for API communication
+- CSS Modules: For component-scoped styling
+- React Bootstrap: For UI components
+- React Icons: For Icon components
+
+### Backend Technologies
+- Node.js: JavaScript runtime for server-side execution
+- Express.js: Web framework for building API endpoints
+- JSON Web Token (JWT): For secure authentication
+- MongoDB: NoSQL database for storing user and post data
+- Mongoose: For database connectivity
 
 ### Development Tools
-- **NPM**: Package manager
-- **Nodemon**: Development server for auto-reloading
-- **Git**: Version control
+- npm: Package management
+- Create React App: Frontend bootstrapping
+- Git: Version control
 
-## 4. Roles and Responsibilities
+### Deployment & Infrastructure
+- The server is configured to run on port 8080
+- MongoDB Atlas is used as the database service
+- CORS is enabled for cross-origin requests
 
-This project was developed by a team of two:
+## Team Roles and Responsibilities
 
-- **Prelisa Dahal**:
-  - Figma Design
-  - Overall project architecture
-  - Backend API development
-  - Database schema design
-  - Authentication system
-  - Project coordination
+The project was developed by a team of two people with overlapping responsibilities:
 
-- **Snehal Mule**:
-  - Frontend UI/UX design
-  - React component development
-  - API integration
-  - Responsive design implementation
-  - Testing and quality assurance
-  - Project coordination
+### Prelisa
+- UX/UI Design: Created the visual design and user experience for the platform
+- Backend Development: Implemented the Express.js server, API endpoints, and MongoDB integration
+- Frontend Development (Partial): Developed specific frontend components and pages
+- Integration: Collaborated on connecting frontend components with backend services
 
-## 5. Challenges, Learnings, and Future Improvements
+### Snehal
+- Frontend Development: Built React components, pages, and client-side functionality
+- Backend Development: Updating the backend for the CRUD operations
+- Integration: Collaborated on connecting frontend components with backend services
+- Testing and quality assurance
+
+Both team members contributed to the overall architecture and feature implementation, with a collaborative approach to frontend-backend integration.
+
+## Challenges, Learnings, and Future Improvements
 
 ### Challenges Faced
-
 1. **Authentication Management**: Implementing secure JWT-based authentication with proper session handling and token expiration.
 2. **Rich Text Editor Integration**: Integrating and configuring the Quill.js editor to work seamlessly with content saving and retrieval.
 3. **Responsive Design**: Ensuring the application works well across different devices while maintaining a consistent user experience.
 4. **MongoDB Data Modeling**: Designing efficient schemas for the application's data requirements.
 
 ### Key Learnings
-
 1. **JWT Authentication Flow**: Gained deeper understanding of JWT-based authentication workflows.
 2. **React Component Architecture**: Improved skills in organizing React components for maximum reusability.
 3. **MongoDB/Mongoose**: Enhanced knowledge of MongoDB's document model and Mongoose's ODM capabilities.
 4. **Rich Text Content Management**: Learned best practices for storing and rendering rich text content.
 
 ### Future Improvements
-
 1. **Enhanced User Profiles**: Add more customization options for user profiles, including profile pictures and social links.
 2. **Search Functionality**: Implement a robust search system for finding posts by title, content, or keywords.
 3. **Categories and Tags**: Add the ability to categorize posts and use tags for better content organization.
-4. **Interactions and Comments**: Implement a comment system and social interactions like likes and shares.
+4. **Interactions and Comments**: Implement a comment system and social interactions like likes, shares, upvotes, downvotes.
 5. **Image Upload Functionality**: Add direct image upload capabilities instead of using image URLs.
 6. **Analytics Dashboard**: Provide authors with insights about their post performance.
 7. **SEO Optimization**: Improve metadata and URL structures for better search engine visibility.
@@ -128,6 +165,8 @@ This project was developed by a team of two:
 
 ## Conclusion
 
-MindBridge successfully delivers a functional content publishing platform with essential features for content creators. The project demonstrates effective use of modern web technologies including React, Express, and MongoDB. While the current implementation provides a solid foundation, there are numerous opportunities for enhancement and expansion in future iterations.
+MindBridge demonstrates a solid foundation for a mental health blog platform with user authentication and post management capabilities. The project effectively implements a full-stack JavaScript application with MongoDB integration. While there are areas for improvement, particularly around security and scalability, the current implementation provides a functional platform that could be expanded into a supportive mental health content community.
 
-The team has gained valuable experience in full-stack development and has created a codebase that is modular and maintainable, setting the stage for future improvements and added functionality.
+The clear separation of concerns between frontend and backend, along with the modular component architecture, positions the project well for future development and feature expansion. With the recommended improvements, MindBridge could evolve into a comprehensive platform for connecting people through shared mental health experiences and well-being resources.
+
+The collaboration between team members with complementary skills has resulted in a cohesive application that addresses an important social need. By creating a dedicated space for mental health content, MindBridge has the potential to make a meaningful impact in fostering dialogue and support around mental health topics.
